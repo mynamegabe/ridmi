@@ -3,12 +3,12 @@ import 'package:provider/provider.dart';
 import '../providers/bluetooth_provider.dart';
 import 'device_interaction.dart';
 
-class TestHome extends StatefulWidget {
+class ConnectHome extends StatefulWidget {
   @override
-  _TestHomeState createState() => _TestHomeState();
+  _ConnectHomeState createState() => _ConnectHomeState();
 }
 
-class _TestHomeState extends State<TestHome> {
+class _ConnectHomeState extends State<ConnectHome> {
   bool showAllDevices = false;
   String searchQuery = '';
   bool sortAlphabetically = false;
@@ -118,11 +118,15 @@ class _TestHomeState extends State<TestHome> {
 
                     // Navigate to the interaction page after connection
                     if (bluetoothProvider.isConnected(device)) {
-                      Navigator.push(
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => DeviceInteractionScreen(device: device),
+                      //   ),
+                      // );
+                      Navigator.pushNamed(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => DeviceInteractionScreen(device: device),
-                        ),
+                        '/home',
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(

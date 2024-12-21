@@ -8,8 +8,10 @@ class UserBase(BaseModel):
 
 
 class UserProfile(BaseModel):
-    username: str
-    avatar_url: str
+    first_name: str
+    last_name: str
+    email: str
+    org_name: str
 
 
 class UserCreate(UserBase):

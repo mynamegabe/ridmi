@@ -12,14 +12,13 @@ from fastapi import (
 from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import select
 from typing import Annotated, Optional, List
-from routers import users, auth, webhooks
+from routers import users, auth
 from utils.common import hash_password, random_string
 from utils.db import Session, get_session, User, Organisation, create_db_and_tables
 from utils.common import get_current_active_user
 from config import *
 from werkzeug.utils import secure_filename
 import uvicorn
-from schemas import Repo, Commit, GetCommits, GetCommit, CommitRef, CommitsResponse
 import requests
 from datetime import datetime
 
@@ -52,24 +51,26 @@ def on_startup():
     
     # create test organisation
     session = next(get_session())
-    org = Organisation(
-        id=org_id,
-        name="RIDMI", org_code="ridmi123")
-    session.add(org)
-    session.commit()
+    if not session.exec(select(Organisation).where(Organisation.name == "RIDMI")).first():
+        org = Organisation(
+            id=org_id,
+            name="RIDMI", org_code="ridmi123")
+        session.add(org)
+        session.commit()
     
     # create test user
-    uid = random_string(32)
-    user = User(
-        id=uid,
-        first_name="John",
-        last_name="Doe",
-        email="johndoe@ridmi.org"
-        password=hash_password("password"),
-        organisation_id=org_id,
-    )
-    session.add(user)
-    session.commit()
+    if not session.exec(select(User).where(User.email == "johndoe@ridmi.org")).first():
+        uid = random_string(32)
+        user = User(
+            id=uid,
+            first_name="John",
+            last_name="Doe",
+            email="johndoe@ridmi.org",
+            password=hash_password("password"),
+            org_id=org_id
+        )
+        session.add(user)
+        session.commit()
     session.close()
     
 
@@ -78,4 +79,4 @@ def read_root():
     return {"Hello": "World"}
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=80, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

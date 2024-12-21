@@ -25,7 +25,7 @@ class Token(BaseModel):
 
 
 class TokenData(BaseModel):
-    username: str | None = None
+    uid: str | None = None
 
 
 def hash_password(password: str) -> str:
@@ -61,13 +61,13 @@ async def get_current_user(
     )
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: str = payload.get("sub")
-        if username is None:
+        uid: str = payload.get("sub")
+        if uid is None:
             raise credentials_exception
-        token_data = TokenData(username=username)
+        token_data = TokenData(uid=uid)
     except InvalidTokenError:
         raise credentials_exception
-    user = session.exec(select(User).filter_by(username=token_data.username)).first()
+    user = session.exec(select(User).filter_by(id=token_data.uid)).first()
     # user = session.exec(select(User).filter_by(username="mynamegabe")).first()
     if user is None:
         raise credentials_exception
