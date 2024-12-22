@@ -18,12 +18,14 @@ void main() {
         // ChangeNotifierProvider(create: (_) => RFIDProvider()),
         // ChangeNotifierProvider(create: (_) => WifiAttackProvider()),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -31,14 +33,14 @@ class MyApp extends StatelessWidget {
       title: 'RIDMI',
       theme: ThemeData(
         fontFamily: 'Figtree',
-        primaryColor: Color(0xFF13BFB5), // Set primary color
+        primaryColor: const Color(0xFF13BFB5), // Set primary color
         colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: Color(0xFF13BFB5), // Primary color for widgets
-          secondary: Color(0xFF13BFB5), // Secondary color
+          primary: const Color(0xFF13BFB5), // Primary color for widgets
+          secondary: const Color(0xFF13BFB5), // Secondary color
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Color(0xFF13BFB5),
+            backgroundColor: const Color(0xFF13BFB5),
             foregroundColor: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
@@ -47,8 +49,8 @@ class MyApp extends StatelessWidget {
         ),
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
-            side: BorderSide(color: Color(0xFF13BFB5)),
-            foregroundColor: Color(0xFF13BFB5),
+            side: const BorderSide(color: Color(0xFF13BFB5)),
+            foregroundColor: const Color(0xFF13BFB5),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -57,10 +59,10 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => StartScreen(),
-        '/connect': (context) => ConnectHome(),
-        '/login': (context) => LoginScreen(),
-        '/home': (context) => HomeScreen(),
+        '/': (context) => const StartScreen(),
+        '/connect': (context) => const ConnectHome(),
+        '/login': (context) => const LoginScreen(),
+        '/home': (context) => const HomeScreen(),
         // '/menu': (context) => MainMenu(),
         // '/ir': (context) => IRPage(),
         // '/rf': (context) => RFPage(),

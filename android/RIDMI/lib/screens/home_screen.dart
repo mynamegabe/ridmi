@@ -2,18 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/bluetooth_provider.dart'; // Bluetooth Provider
 import '../providers/user_provider.dart'; // User Provider
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import '../config.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool _isLoading = false;
+  final bool _isLoading = false;
   String? _errorMessage;
 
   @override
@@ -35,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
             right: 0,
             bottom: 0, // Fill until the bottom
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/images/globe_1.png'),
                   fit: BoxFit.cover,
@@ -78,13 +76,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 Text(
                                   'Hi, ${userData?['first_name']} ${userData?['last_name'][0]}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black87,
                                   ),
                                 ),
-                                Text(
+                                const Text(
                                   'How can we help today?',
                                   style: TextStyle(
                                     fontSize: 16,
@@ -107,8 +105,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
 
                       // header Recent Records
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -139,12 +137,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             0: FlexColumnWidth(2),
                             1: FlexColumnWidth(1),
                           },
-                          children: [
+                          children: const [
                             TableRow(
                               children: [
                                 TableCell(
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: EdgeInsets.symmetric(vertical: 10),
                                     child: Text(
                                       'Patient Name',
                                       style: TextStyle(
@@ -157,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 TableCell(
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: EdgeInsets.symmetric(vertical: 10),
                                     child: Text(
                                       'Date of Visit',
                                       style: TextStyle(
@@ -174,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 TableCell(
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: EdgeInsets.symmetric(vertical: 10),
                                     child: Text(
                                       'John Doe',
                                       style: TextStyle(
@@ -186,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 TableCell(
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: EdgeInsets.symmetric(vertical: 10),
                                     child: Text(
                                       '12th July 2021',
                                       style: TextStyle(
@@ -202,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 TableCell(
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: EdgeInsets.symmetric(vertical: 10),
                                     child: Text(
                                       'Jane Doe',
                                       style: TextStyle(
@@ -214,7 +212,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 TableCell(
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: EdgeInsets.symmetric(vertical: 10),
                                     child: Text(
                                       '15th July 2021',
                                       style: TextStyle(
@@ -237,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               'Bluetooth Status',
                               style: TextStyle(
                                 fontSize: 20,
@@ -250,7 +248,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               isConnected
                                   ? 'Device connected to reader'
                                   : 'Device not connected to reader',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 14,
                                 color: Colors.black54,
                               ),
@@ -345,12 +343,12 @@ class _HomeScreenState extends State<HomeScreen> {
               return Container(
                 height: size.height - 20,  // Fullscreen minus 20 units
                 width: size.width,         // Fullscreen width
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Medical Information',
                         style: TextStyle(
                           fontSize: 20,
@@ -394,7 +392,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
               color: Colors.black87,
@@ -408,9 +406,9 @@ class _HomeScreenState extends State<HomeScreen> {
               hintText: 'Enter $title',
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(5.0),
-                borderSide: BorderSide(color: Colors.grey),
+                borderSide: const BorderSide(color: Colors.grey),
               ),
-              contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
+              contentPadding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
             ),
           ),
           const SizedBox(height: 8),
@@ -447,7 +445,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
               color: Colors.black87,
@@ -459,13 +457,13 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.symmetric(vertical: 2.0),
               child: Text(
                 '• $item',  // Bullet point style for list items
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14,
                   color: Colors.black54,
                 ),
               ),
             );
-          }).toList(),
+          }),
         ],
       ),
     );
@@ -483,7 +481,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
               color: Colors.black87,
@@ -501,9 +499,9 @@ class _HomeScreenState extends State<HomeScreen> {
             } else if (title == 'Medication History') {
               return _buildMedicationHistory(item);
             } else {
-              return SizedBox.shrink(); // Fallback for unhandled titles
+              return const SizedBox.shrink(); // Fallback for unhandled titles
             }
-          }).toList(),
+          }),
         ],
       ),
     );
@@ -517,17 +515,17 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Text(
             '- Vaccine Name: ${item['vaccine_name'] ?? 'N/A'}',
-            style: TextStyle(fontSize: 14, color: Colors.black54),
+            style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
           Text(
             '  Date: ${item['date'] ?? 'N/A'}',
-            style: TextStyle(fontSize: 14, color: Colors.black54),
+            style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
           Text(
             '  Booster: ${item['booster'] ?? 'N/A'}',
-            style: TextStyle(fontSize: 14, color: Colors.black54),
+            style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
-          Divider(),
+          const Divider(),
         ],
       ),
     );
@@ -541,17 +539,17 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Text(
             '- Test Name: ${item['test_name'] ?? 'N/A'}',
-            style: TextStyle(fontSize: 14, color: Colors.black54),
+            style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
           Text(
             '  Result: ${item['result'] ?? 'N/A'}',
-            style: TextStyle(fontSize: 14, color: Colors.black54),
+            style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
           Text(
             '  Date: ${item['date'] ?? 'N/A'}',
-            style: TextStyle(fontSize: 14, color: Colors.black54),
+            style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
-          Divider(),
+          const Divider(),
         ],
       ),
     );
@@ -565,17 +563,17 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Text(
             '- Appointment Date: ${item['appointment_date'] ?? 'N/A'}',
-            style: TextStyle(fontSize: 14, color: Colors.black54),
+            style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
           Text(
             '  Doctor: ${item['doctor'] ?? 'N/A'}',
-            style: TextStyle(fontSize: 14, color: Colors.black54),
+            style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
           Text(
             '  Reason: ${item['reason'] ?? 'N/A'}',
-            style: TextStyle(fontSize: 14, color: Colors.black54),
+            style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
-          Divider(),
+          const Divider(),
         ],
       ),
     );
@@ -589,25 +587,25 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Text(
             '- Medication Name: ${item['medication'] ?? 'N/A'}',
-            style: TextStyle(fontSize: 14, color: Colors.black54),
+            style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
           Text(
             '  Dosage: ${item['dosage'] ?? 'N/A'}',
-            style: TextStyle(fontSize: 14, color: Colors.black54),
+            style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
           Text(
             '  Frequency: ${item['frequency'] ?? 'N/A'}',
-            style: TextStyle(fontSize: 14, color: Colors.black54),
+            style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
           Text(
             '  Start Date: ${item['start_date'] ?? 'N/A'}',
-            style: TextStyle(fontSize: 14, color: Colors.black54),
+            style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
           Text(
             '  End Date: ${item['end_date'] ?? 'N/A'}',
-            style: TextStyle(fontSize: 14, color: Colors.black54),
+            style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
-          Divider(),
+          const Divider(),
         ],
       ),
     );
@@ -620,7 +618,7 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Row(
         children: <Widget>[
-          Text('$title: ', style: TextStyle(fontWeight: FontWeight.bold)),
+          Text('$title: ', style: const TextStyle(fontWeight: FontWeight.bold)),
           Expanded(child: Text(value)),
         ],
       ),

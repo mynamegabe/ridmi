@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/bluetooth_provider.dart';
-import 'device_interaction.dart';
 
 class ConnectHome extends StatefulWidget {
+  const ConnectHome({super.key});
+
   @override
   _ConnectHomeState createState() => _ConnectHomeState();
 }

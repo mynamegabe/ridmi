@@ -8,6 +8,8 @@ import '../providers/user_provider.dart';
 
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -103,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
             right: 0,
             bottom: 0, // Fill until the bottom
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/images/globe_1.png'),
                   fit: BoxFit.cover,
@@ -157,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           decoration: InputDecoration(
                             filled: true,
                             labelText: 'Email',
-                            border: OutlineInputBorder(),
+                            border: const OutlineInputBorder(),
                             errorText: _errorMessage,
                           ),
                         ),
@@ -170,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: TextField(
                           controller: _passwordController,
                           obscureText: true,  // This makes the text input hidden (password style)
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             filled: true,
                             labelText: 'Password',
                             border: OutlineInputBorder(),
@@ -204,7 +206,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      Text('or'),
+                      const Text('or'),
                       const SizedBox(height: 20),
 
                       // Continue with SSO
@@ -216,7 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () {},
                             style: OutlinedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 15),
-                              side: BorderSide(color: Colors.black),
+                              side: const BorderSide(color: Colors.black),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -238,7 +240,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () {},
                             style: OutlinedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 15),
-                              side: BorderSide(color: Colors.black),
+                              side: const BorderSide(color: Colors.black),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),

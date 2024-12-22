@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'dart:async';
-import 'package:buffer/buffer.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 
 class DeviceInteractionScreen extends StatefulWidget {
   final BluetoothDevice device;
 
-  const DeviceInteractionScreen({Key? key, required this.device}) : super(key: key);
+  const DeviceInteractionScreen({super.key, required this.device});
 
   @override
   State<DeviceInteractionScreen> createState() => _DeviceInteractionScreenState();
@@ -56,7 +55,7 @@ class _DeviceInteractionScreenState extends State<DeviceInteractionScreen> {
 
       setState(() {
         messages.add(Message(message,1));
-      }); 
+      });
 
       await _lastChar!.setNotifyValue(true);
       await _lastChar!.write(Uint8List.fromList(utf8.encode(message)));
@@ -75,11 +74,11 @@ class _DeviceInteractionScreenState extends State<DeviceInteractionScreen> {
         itemBuilder: (context, index) {
           final service = _services![index];
           // List<Message> messages = [];
-          StreamSubscription<List<int>>? stream_sub;
+          StreamSubscription<List<int>>? streamSub;
 
-          stream_sub = _lastChar?.onValueReceived.listen((value) async {
+          streamSub = _lastChar?.onValueReceived.listen((value) async {
             if (value.isNotEmpty) {
-              String s = new String.fromCharCodes(value);
+              String s = String.fromCharCodes(value);
               setState(() {
                 messages.add(Message(s,0));
               });

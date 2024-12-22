@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'login_screen.dart'; // Import the Login Screen
 
 class StartScreen extends StatefulWidget {
+  const StartScreen({super.key});
+
   @override
   _StartScreenState createState() => _StartScreenState();
 }
@@ -89,7 +91,7 @@ class _StartScreenState extends State<StartScreen> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                    MaterialPageRoute(builder: (context) => const LoginScreen()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
@@ -97,7 +99,7 @@ class _StartScreenState extends State<StartScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                 ),
                 child: const Text(
                   'Get Started',
