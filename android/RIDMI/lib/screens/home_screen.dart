@@ -255,14 +255,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             const SizedBox(height: 20), // Adds space between subtext and button
                             // show diff button if connected
-                            if (!isConnected)
                               ElevatedButton(
                                 onPressed: () {
                                   Navigator.pushNamed(context, '/connect');
                                 },
                                 child: const Text('Connect'),
-                              )
-                            else
+                              ),
+                            if (isConnected)
                               ElevatedButton(
                                 onPressed: () async {
                                   // Ensure readData is completed before proceeding
@@ -514,15 +513,15 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '- Vaccine Name: ${item['vaccine_name'] ?? 'N/A'}',
+            '- Vaccine Name: ${item['va'] ?? 'N/A'}',
             style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
           Text(
-            '  Date: ${item['date'] ?? 'N/A'}',
+            '  Date: ${item['doa'] ?? 'N/A'}',
             style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
           Text(
-            '  Booster: ${item['booster'] ?? 'N/A'}',
+            '  Booster: ${item['bo'] ?? 'N/A'}',
             style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
           const Divider(),
@@ -538,15 +537,15 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '- Test Name: ${item['test_name'] ?? 'N/A'}',
+            '- Test Name: ${item['te'] ?? 'N/A'}',
             style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
           Text(
-            '  Result: ${item['result'] ?? 'N/A'}',
+            '  Result: ${item['r'] ?? 'N/A'}',
             style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
           Text(
-            '  Date: ${item['date'] ?? 'N/A'}',
+            '  Date: ${item['d'] ?? 'N/A'}',
             style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
           const Divider(),
@@ -562,7 +561,7 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '- Appointment Date: ${item['appointment_date'] ?? 'N/A'}',
+            '- Appointment Date: ${item['ad'] ?? 'N/A'}',
             style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
           Text(
@@ -570,7 +569,7 @@ class _HomeScreenState extends State<HomeScreen> {
             style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
           Text(
-            '  Reason: ${item['reason'] ?? 'N/A'}',
+            '  Reason: ${item['r'] ?? 'N/A'}',
             style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
           const Divider(),
@@ -586,15 +585,15 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '- Medication Name: ${item['medication'] ?? 'N/A'}',
+            '- Medication Name: ${item['m'] ?? 'N/A'}',
             style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
           Text(
-            '  Dosage: ${item['dosage'] ?? 'N/A'}',
+            '  Dosage: ${item['d'] ?? 'N/A'}',
             style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
           Text(
-            '  Frequency: ${item['frequency'] ?? 'N/A'}',
+            '  Frequency: ${item['f'] ?? 'N/A'}',
             style: const TextStyle(fontSize: 14, color: Colors.black54),
           ),
           Text(

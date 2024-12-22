@@ -42,6 +42,7 @@ class BluetoothProvider with ChangeNotifier {
     try {
       await device.connect(); // Connect to the new device
       _connectedDevice = device;
+      getService();
       notifyListeners();
     } catch (e) {
       print('Error connecting to device: $e');
@@ -52,11 +53,22 @@ class BluetoothProvider with ChangeNotifier {
     if (_connectedDevice != null) {
       try {
         List<BluetoothService> services = await _connectedDevice!.discoverServices();
+        // print all services and characteristics
+        services.forEach((service) {
+          print('Service: ${service.uuid}');
+          service.characteristics.forEach((char) {
+            print('Characteristic: ${char.uuid}');
+            if ('${char.uuid}' == Config.characteristicId) {
+              _readChar = char;
+              print('Read characteristic found');
+            }
+          });
+        });
         // _readChar = lastService.characteristics.last;
         // find characteristic matching Config.serviceId and characteristicId
-        _readChar = services
-            .expand((service) => service.characteristics)
-            .firstWhere((char) => char.uuid == Config.characteristicId);
+        // _readChar = services
+        //     .expand((service) => service.characteristics)
+        //     .firstWhere((char) => char.uuid == Config.characteristicId);
         notifyListeners();
       } catch (e) {
         print('Error discovering services: $e');
@@ -66,6 +78,7 @@ class BluetoothProvider with ChangeNotifier {
 
   Future<void> readData() async {
     _dataBuffer.clear();
+    _data = '';
     // send write command 0x11
     if (_readChar != null) {
       try {
@@ -73,101 +86,151 @@ class BluetoothProvider with ChangeNotifier {
       } catch (e) {
         print('Error writing data: $e');
       }
-      // read until null byte
-      _readChar!.lastValueStream.listen((value) {
-        if (value.isNotEmpty) {
-          _dataBuffer.addAll(value);
-          _data += utf8.decode(_dataBuffer);
-        } else {
-          print('Data received: ${utf8.decode(_dataBuffer)}');
-        }
-      });
 
-      // parse json in _data
-      try {
-        final data = jsonDecode(_data);
-        _parsedData = data;
-        print('Parsed data: $data');
-      } catch (e) {
-        print('Error parsing data: $e');
-      }
+      // await _readChar!.setNotifyValue(true);
+
+      // read until null byte
+      // Future.delayed(const Duration(seconds: 2), () async {
+      //   print('After 2 seconds');
+
+        // while data does not contain "END" | 45 4e 44
+        List<int> value = [0x01];
+        List<int> lastValue = [0x01];
+        do {
+          value = await _readChar!.read();
+          if (lastValue != value && value.isNotEmpty) {
+            print('Data received a: $value');
+            lastValue = value;
+            _data += utf8.decode(value);
+            print(_data);
+            // _dataBuffer.addAll(value);
+          }
+          else {
+            print('Same value');
+          }
+          // value.clear();
+        } while (_data.contains('END') == false);
+
+        // _readChar!.value.listen((value) {
+        //   print('Data received a: $value');
+        //
+        //   if (value.isNotEmpty) {
+        //     // Append the received data to the buffer
+        //     _dataBuffer.addAll(value);
+        //
+        //     // Check if the data ends with 0x00 (null byte)
+        //     if (_dataBuffer.last == 0x00) {
+        //       // Process the data if it ends with 0x00
+        //       // print('Data received b: ${utf8.decode(_dataBuffer)}');
+        //
+        //       // _data = utf8.decode(_dataBuffer);
+        //       // Reset the buffer if you want to start collecting data again
+        //       // _dataBuffer.clear();
+        //     } else {
+        //       // Data isn't complete yet, continue accumulating
+        //       print('Buffer continues...');
+        //     }
+        //   }
+        // });
+
+        //  slice string to remove last 2 bytes
+        // print(_dataBuffer);
+        // _data = utf8.decode(_dataBuffer.sublist(0, _dataBuffer.length - 3));
+        // print(_data);
+      // _data = utf8.decode(_dataBuffer);
+        // _data = utf8.decode(_dataBuffer.sublist(0, _dataBuffer.length - 2));
+
+        // print("Done: $_data");
+
+        // slice string from { to len-3
+        _data = _data.substring(_data.indexOf('{'), _data.length - 3);
+
+        // parse json in _data
+        try {
+          final data = jsonDecode(_data);
+          _parsedData = data;
+          print('Parsed data: $data');
+        } catch (e) {
+          print('Error parsing data: $e');
+        }
+      // });
     }
     // test data
-    _parsedData = {
-      "NM": "John Doe",
-      "DOB": "1985-06-15",
-      "SEX": "Male",
-      "CON": "+1234567890",
-      "ECON": "+0987654321",
-      "CI": [
-        "Diabetes",
-        "Hypertension"
-      ],
-      "PH": [
-        "Appendectomy (2010)",
-        "Knee surgery (2015)"
-      ],
-      "AL": [
-        "Penicillin",
-        "Peanuts"
-      ],
-      "FMH": [
-        "Father: Heart disease",
-        "Mother: Cancer"
-      ],
-      "VR": [
-        {
-          "vaccine": "COVID-19",
-          "date_of_administration": "2021-03-15",
-          "booster": false
-        },
-        {
-          "vaccine": "Influenza",
-          "date_of_administration": "2023-10-05",
-          "booster": true
-        }
-      ],
-      "DOA": [
-        "2023-12-01"
-      ],
-      "BR": [
-        "2023-12-05"
-      ],
-      "LTR": [
-        {
-          "test": "Blood test",
-          "date": "2023-11-15",
-          "result": "Normal"
-        },
-        {
-          "test": "X-ray",
-          "date": "2023-11-10",
-          "result": "Fracture detected"
-        }
-      ],
-      "AH": [
-        {
-          "appointment_date": "2023-12-01",
-          "reason": "Routine checkup"
-        },
-        {
-          "appointment_date": "2023-11-15",
-          "reason": "Follow-up after surgery"
-        }
-      ],
-      "MH": [
-        {
-          "medication": "Metformin",
-          "dosage": "500mg",
-          "frequency": "Twice a day"
-        },
-        {
-          "medication": "Amlodipine",
-          "dosage": "10mg",
-          "frequency": "Once a day"
-        }
-      ]
-    };
+    // _parsedData = {
+    //   "NM": "John Doe",
+    //   "DOB": "1985-06-15",
+    //   "SEX": "Male",
+    //   "CON": "+1234567890",
+    //   "ECON": "+0987654321",
+    //   "CI": [
+    //     "Diabetes",
+    //     "Hypertension"
+    //   ],
+    //   "PH": [
+    //     "Appendectomy (2010)",
+    //     "Knee surgery (2015)"
+    //   ],
+    //   "AL": [
+    //     "Penicillin",
+    //     "Peanuts"
+    //   ],
+    //   "FMH": [
+    //     "Father: Heart disease",
+    //     "Mother: Cancer"
+    //   ],
+    //   "VR": [
+    //     {
+    //       "va": "COVID-19",
+    //       "doa": "2021-03-15",
+    //       "bo": false
+    //     },
+    //     {
+    //       "va": "Influenza",
+    //       "doa": "2023-10-05",
+    //       "bo": true
+    //     }
+    //   ],
+    //   "DOA": [
+    //     "2023-12-01"
+    //   ],
+    //   "BR": [
+    //     "2023-12-05"
+    //   ],
+    //   "LTR": [
+    //     {
+    //       "te": "Blood test",
+    //       "d": "2023-11-15",
+    //       "r": "Normal"
+    //     },
+    //     {
+    //       "te": "X-ray",
+    //       "d": "2023-11-10",
+    //       "r": "Fracture detected"
+    //     }
+    //   ],
+    //   "AH": [
+    //     {
+    //       "ad": "2023-12-01",
+    //       "r": "Routine checkup"
+    //     },
+    //     {
+    //       "ad": "2023-11-15",
+    //       "r": "Follow-up after surgery"
+    //     }
+    //   ],
+    //   "MH": [
+    //     {
+    //       "m": "Metformin",
+    //       "d": "500mg",
+    //       "f": "Twice a day"
+    //     },
+    //     {
+    //       "m": "Amlodipine",
+    //       "d": "10mg",
+    //       "f": "Once a day"
+    //     }
+    //   ]
+    // };
   }
 
 
