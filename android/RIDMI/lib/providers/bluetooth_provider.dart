@@ -87,63 +87,27 @@ class BluetoothProvider with ChangeNotifier {
         print('Error writing data: $e');
       }
 
-      // await _readChar!.setNotifyValue(true);
-
-      // read until null byte
-      // Future.delayed(const Duration(seconds: 2), () async {
-      //   print('After 2 seconds');
-
-        // while data does not contain "END" | 45 4e 44
         List<int> value = [0x01];
         List<int> lastValue = [0x01];
-        do {
-          value = await _readChar!.read();
-          if (lastValue != value && value.isNotEmpty) {
-            print('Data received a: $value');
-            lastValue = value;
-            _data += utf8.decode(value);
-            print(_data);
-            // _dataBuffer.addAll(value);
-          }
-          else {
-            print('Same value');
-          }
-          // value.clear();
-        } while (_data.contains('END') == false);
 
-        // _readChar!.value.listen((value) {
-        //   print('Data received a: $value');
-        //
-        //   if (value.isNotEmpty) {
-        //     // Append the received data to the buffer
-        //     _dataBuffer.addAll(value);
-        //
-        //     // Check if the data ends with 0x00 (null byte)
-        //     if (_dataBuffer.last == 0x00) {
-        //       // Process the data if it ends with 0x00
-        //       // print('Data received b: ${utf8.decode(_dataBuffer)}');
-        //
-        //       // _data = utf8.decode(_dataBuffer);
-        //       // Reset the buffer if you want to start collecting data again
-        //       // _dataBuffer.clear();
-        //     } else {
-        //       // Data isn't complete yet, continue accumulating
-        //       print('Buffer continues...');
-        //     }
-        //   }
-        // });
+      do {
+        value = await _readChar!.read();
+        if (lastValue != value && value.isNotEmpty) {
+          print('Data received a: $value');
+          lastValue = value;
+          _data += utf8.decode(value);
+          print(_data);
+          // _dataBuffer.addAll(value);
+        }
+        else {
+          print('Same value');
+        }
+        // value.clear();
+      } while (_data.contains('END') == false);
 
-        //  slice string to remove last 2 bytes
-        // print(_dataBuffer);
-        // _data = utf8.decode(_dataBuffer.sublist(0, _dataBuffer.length - 3));
-        // print(_data);
-      // _data = utf8.decode(_dataBuffer);
-        // _data = utf8.decode(_dataBuffer.sublist(0, _dataBuffer.length - 2));
-
-        // print("Done: $_data");
 
         // slice string from { to len-3
-        _data = _data.substring(_data.indexOf('{'), _data.length - 3);
+        _data = _data.substring(_data.indexOf('{'), _data.indexOf('END'));
 
         // parse json in _data
         try {

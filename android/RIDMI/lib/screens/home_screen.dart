@@ -51,19 +51,41 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     children: [
                       const SizedBox(height: 50),
-
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Image.asset(
+                                'assets/images/ridmi_logo.png', // Replace with your asset path
+                                width: 120,
+                              ),
+                            ],
+                          ),
+                        ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Image.asset(
-                              'assets/images/ridmi_logo.png', // Replace with your asset path
-                              width: 120,
-                            ),
-                          ],
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Align(
+                          alignment: Alignment.topRight,
+                          child: DropdownButton<String>(
+                            value: 'English',
+                            icon: const Icon(Icons.arrow_drop_down),
+                            onChanged: (String? newValue) {},
+                            items: <String>['English', 'Spanish', 'French']
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
                         ),
                       ),
+
+                      ]),
 
                       // Header text Hi, name
                       Padding(
